@@ -1,102 +1,89 @@
-1.设置静态ip
-
-1.1填入IP字段
-
+设置静态ip(仅主机模式使用本机网卡):
+填入IP
 GATEWAY=192.168.37.1(主机ip)
 IPADDR=192.168.37.191(网段与主机一致)
 NETMASK=255.255.255.0(网关)
+重启网卡
+service network restart
+查看结果
+ifconfig
+------------------------------------------------------------------------------------
+设置主机名:
+系统级修改(永久生效)
+vi /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=wztao
+vi /etc/host
+主机ip wztao(主机名)
+重启生效
+reboot
+验证
+hostname
+临时修改(重启失效)
+hostname xxxx(新的主机名)
+------------------------------------------------------------------------------------
+防火墙操作:
+service iptables start/stop/status
+关闭防火墙自动运行
+chkconfig iptables off
 
-1.2重启网卡设置
-
-执行命令 service network restart
-
-1.3查看配置结果是否正确 执行命令 ifconfig
-
-2.设置hostname
-
-2.1设置
-
-执行命令 vi /etc/sysconfig/network
-
-更改：NETWORKING=yes
-      HOSTNAME=steve0
-
-2.2重启实现 执行命令 reboot
-
-2.3验证 执行命令 hostname
-
-3.绑定ip与hostname
-
-3.1 执行命令 vi /etc/hosts 增加ip与hostname的映射信息
-
-更改：192.168.37.191 steve0
-
-3.2在windows的C:\Windows\System32\drivers\etc\hosts增加ip与主机名绑定
-
-4.关闭防火墙
-
-4.1关闭 执行命令 service iptables stop
-
-4.2查看防火墙是否正在运行 执行命令 service iptables status
-
-5.关闭防火墙的自动运行 执行命令 chkconfig iptables off
-
-6.设置ssh免密码登陆
-
-6.1设置
-
-执行命令 cd /root/.ssh/
-	 ssh-keygen -t rsa
-	 cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
-
-6.2验证 执行命令 ssh steve0
-
-7.安装jdk
-
-7.1 安装
-
-执行命令 cd /usr/local
-	 chmod u+x jdk-7u71-linux-i586.tar.gz
-	 tar -zxvf jdk-7u71-linux-i586.tar.gz
-	 mv jdk-1.7.0_71  jdk
-	 source /etc/profile
-
-7.2配置环境变量
-
-执行命令 vi /etc/profile
-
-更改 export JAVA_HOME=/usr/local/jdk
-     export PATH=.:$JAVA_HOME/bin:$PATH
-
-执行命令 source /etc/profile
-
-7.3验证 执行命令 java -version
-
-8.安装Hadoop
-
-8.1 安装
-
-执行命令 cd /usr/local 
-	 chmod u+x hadoop-2.3.0.tar.gz
-	 tar -zxvf hadoop-2.3.0.tar.gz
-	 mv hadoop-2.3.0 hadoop
-
-8.2配置环境变量
-
-执行命令 vi /etc/profile
-
-更改 export HADOOP_HOME=/usr/local/hadoop
-     export PATH=.:$HADOOP_HOME/bin:$JAVA_HOME/bin:$PATH
-
-执行命令 source /etc/profile
-
-8.3修改配置 见“2.”文件
-
-8.4验证 执行命令 jps
-
-
-
-        
-command1  |    command2
+ssh互信:
+生成秘钥
+ssh-keygen -t rsa
+cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+------------------------------------------------------------------------------------
+安装jdk:
+解压
+环境变量
+vi /etc/profile
+export JAVA_HOME=/usr/local/jdk1.7(jdk根目录绝对路径)
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+source /etc/profile
+验证
+java -version
+------------------------------------------------------------------------------------
+管道:
+前一命令的输出为后一命令的输入      
+command1  |   command2
      (out) (input)
+------------------------------------------------------------------------------------
 grep (正则匹配)
+------------------------------------------------------------------------------------
+定时器:
+cron格式:
+*　　*　　*　　*　　*　　command 
+分　 时　 日　 月　 周　 命令
+crontab 
+使用权限 : 所有使用者 
+使用方式 : 
+crontab file [-u user]-用指定的文件替代目前的crontab。 
+crontab-[-u user]-用标准输入替代目前的crontab. 
+crontab-1[user]-列出用户目前的crontab. 
+crontab-e[user]-编辑用户目前的crontab. 
+crontab-d[user]-删除用户目前的crontab. 
+crontab-c dir- 指定crontab的目录。 
+crontab文件的格式：M H D m d cmd. 
+M: 分钟（0-59）。 
+H：小时（0-23）。 
+D：天（1-31）。 
+m: 月（1-12）。 
+d: 一星期内的天（0~6，0为星期天）。 
+cmd要运行的程序，程序被送入sh执行，这个shell只有USER,HOME,SHELL这三个环境变量 
+说明 : 
+crontab 是用来让使用者在固定时间或固定间隔执行程序之用，换句话说，也就是类似使用者的时程表。-u user 是指设定指定 
+user 的时程表，这个前提是你必须要有其权限(比如说是 root)才能够指定他人的时程表。如果不使用 -u user 的话，就是表示设 
+定自己的时程表。 
+参数 : 
+crontab -e : 执行文字编辑器来设定时程表，内定的文字编辑器是 VI，如果你想用别的文字编辑器，则请先设定 VISUAL 环境变数 
+来指定使用那个文字编辑器(比如说 setenv VISUAL joe) 
+crontab -r : 删除目前的时程表 
+crontab -l : 列出目前的时程表 
+crontab file [-u user]-用指定的文件替代目前的crontab。  
+------------------------------------------------------------------------------------
+查看端口:
+lsof -i
+------------------------------------------------------------------------------------
+文件传输
+sz 本机输出
+rz 本机接收

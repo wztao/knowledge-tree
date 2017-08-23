@@ -1,2 +1,0 @@
-rz windows to linux 文件传输
-lsof -i:端口号 查看端口是否被占用
