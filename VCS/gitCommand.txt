@@ -1,0 +1,49 @@
+git init 
+git status 
+git add [] 将工作空间修改追加到缓存空间
+git rm [] 
+	–cached
+git commit 将缓存空间修改提交至版本库
+	-m ‘’  附带信息
+git log    查看日志
+"log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+git branch 查看本地分支
+	-a     查看远程分支 
+	   []  创建分支
+	-d []  删除分支
+	-D []  强制删除未合并分支
+	--set-upstream  xxx origin/xxx  指定本地分支与远程分支的关联
+git checkout []  切换分支
+	-b []        创建并切换到分支
+	--orphan []  创建无历史记录的分支
+git merge []     合并分支到当前分支
+    --no-ff -m ‘’   保留分支信息合并（git 默认Fast forward合并，这里禁用，相当与创建新的commit，所以带个信息）
+git push origin []  向远程分支合并（origin为默认远程仓库名 git@github.com:wztao/rmb_fx_t_demo.git）
+		-u  第一次同步关联分支
+git pull origin []  从远程分支下载更新
+         --allow-unrelated-histories  合并无关分支（关联本地远程不同步时可用）
+git remote 查看远程仓库
+	-v     查看远程仓库详情
+	set-url origin [git@] 改表远程仓库的协议
+	add origin git@github.com:[xxx/xxx.git] 添加远程仓库（这里是github）
+git stash  暂存当前分支未提交修改（工作区、缓存区清空）
+    list   查看暂存空间
+	pop    释放暂存内容并删除暂存	
+git tag [] tag是打在最新的commit上
+	       [commit id]   补tag
+	-d     删除tag
+git push origin --tags  推送未提交所有tag
+git fetch --all
+git reset --hard origin/master
+git fetch下载远程最新的， 然后，git reset master分支重置	
+		   
+git config --list                        显示当前git配置
+git config --global user.name []
+git config --global user.email []
+git config --global alias.[别名] [command]   配置别名
+git config --global color.ui true 		 开启终端着色
+git config --global core.editor 		 配置默认编辑器
+git config --global core.quotepath false 显示中文文件名
+git config --global core.autocrlf true 		LF-->CRLF
+								  input 	CRLF-->LF
+								  false     保留CRLF

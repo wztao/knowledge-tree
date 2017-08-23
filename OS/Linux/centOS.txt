@@ -1,0 +1,102 @@
+1.设置静态ip
+
+1.1填入IP字段
+
+GATEWAY=192.168.37.1(主机ip)
+IPADDR=192.168.37.191(网段与主机一致)
+NETMASK=255.255.255.0(网关)
+
+1.2重启网卡设置
+
+执行命令 service network restart
+
+1.3查看配置结果是否正确 执行命令 ifconfig
+
+2.设置hostname
+
+2.1设置
+
+执行命令 vi /etc/sysconfig/network
+
+更改：NETWORKING=yes
+      HOSTNAME=steve0
+
+2.2重启实现 执行命令 reboot
+
+2.3验证 执行命令 hostname
+
+3.绑定ip与hostname
+
+3.1 执行命令 vi /etc/hosts 增加ip与hostname的映射信息
+
+更改：192.168.37.191 steve0
+
+3.2在windows的C:\Windows\System32\drivers\etc\hosts增加ip与主机名绑定
+
+4.关闭防火墙
+
+4.1关闭 执行命令 service iptables stop
+
+4.2查看防火墙是否正在运行 执行命令 service iptables status
+
+5.关闭防火墙的自动运行 执行命令 chkconfig iptables off
+
+6.设置ssh免密码登陆
+
+6.1设置
+
+执行命令 cd /root/.ssh/
+	 ssh-keygen -t rsa
+	 cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+
+6.2验证 执行命令 ssh steve0
+
+7.安装jdk
+
+7.1 安装
+
+执行命令 cd /usr/local
+	 chmod u+x jdk-7u71-linux-i586.tar.gz
+	 tar -zxvf jdk-7u71-linux-i586.tar.gz
+	 mv jdk-1.7.0_71  jdk
+	 source /etc/profile
+
+7.2配置环境变量
+
+执行命令 vi /etc/profile
+
+更改 export JAVA_HOME=/usr/local/jdk
+     export PATH=.:$JAVA_HOME/bin:$PATH
+
+执行命令 source /etc/profile
+
+7.3验证 执行命令 java -version
+
+8.安装Hadoop
+
+8.1 安装
+
+执行命令 cd /usr/local 
+	 chmod u+x hadoop-2.3.0.tar.gz
+	 tar -zxvf hadoop-2.3.0.tar.gz
+	 mv hadoop-2.3.0 hadoop
+
+8.2配置环境变量
+
+执行命令 vi /etc/profile
+
+更改 export HADOOP_HOME=/usr/local/hadoop
+     export PATH=.:$HADOOP_HOME/bin:$JAVA_HOME/bin:$PATH
+
+执行命令 source /etc/profile
+
+8.3修改配置 见“2.”文件
+
+8.4验证 执行命令 jps
+
+
+
+        
+command1  |    command2
+     (out) (input)
+grep (正则匹配)
