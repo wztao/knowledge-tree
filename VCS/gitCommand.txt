@@ -47,3 +47,4 @@ git config --global core.quotepath false 显示中文文件名
 git config --global core.autocrlf true 		LF-->CRLF
 								  input 	CRLF-->LF
 								  false     保留CRLF
+git config --global core.excludesfile [excludesfile] 全局过滤配置
